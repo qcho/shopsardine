@@ -16,12 +16,13 @@ public class Sidebar extends JPanel {
 	public String[] labels = {"catalog", "search", "scan", "stats", "help"};
 	
 	public Sidebar() {
-		
+		setName("sidebar");
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		buttons = new JButton[labels.length];
 		for (int i = 0; i < labels.length; i++) {
 			buttons[i] = new JButton(labels[i]);
+			buttons[i].setName("sb" + labels[i]);
 			add(buttons[i]);
 		}
 		

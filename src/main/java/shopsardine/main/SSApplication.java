@@ -38,7 +38,6 @@ public class SSApplication extends Application {
     @Override
     protected void startup() {
         mainFrame = new MainFrame();
-        mainFrame.setName("mainFrame");
         
         mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         
@@ -103,10 +102,17 @@ public class SSApplication extends Application {
         	}
         });
         
+        mainFrame.searchbar.bsearch.addActionListener(new ActionListener() {
+        	
+        	public void actionPerformed(ActionEvent e) {
+        		ambassador.fetchSearchResults(mainFrame.searchbar.tsearch.getText());
+        	}
+        	
+        });
+        
         mainFrame.sidebar.buttons[Sidebar.CATALOG].addMouseListener(new MouseAdapter() {
         	
         	public void mouseClicked(MouseEvent e) {
-        		System.out.println("catalog");
         		mainFrame.showCatalog();
         	}
         	
@@ -115,13 +121,26 @@ public class SSApplication extends Application {
         mainFrame.sidebar.buttons[Sidebar.SEARCH].addMouseListener(new MouseAdapter() {
         	
         	public void mouseClicked(MouseEvent e) {
-        		System.out.println("search");
         		mainFrame.showSearch();
         	}
         	
         });
         
+        mainFrame.sidebar.buttons[Sidebar.STATS].addMouseListener(new MouseAdapter() {
+        	
+        	public void mouseClicked(MouseEvent e) {
+        		mainFrame.showStats();
+        	}
+        	
+        });
         
+        mainFrame.sidebar.buttons[Sidebar.HELP].addMouseListener(new MouseAdapter() {
+        	
+        	public void mouseClicked(MouseEvent e) {
+        		mainFrame.showHelp();
+        	}
+        	
+        });
         
         ambassador = new Ambassador(mainFrame);
         
@@ -152,8 +171,7 @@ public class SSApplication extends Application {
             scrollerInBasicComboPopup.setAccessible(true);  
             JScrollPane scroller = (JScrollPane) scrollerInBasicComboPopup.get(popup);  
   
-            ret = scroller.getViewport().getView();  
-//                ((JViewport) ((JScrollPane) ((BasicComboPopup) popupInBasicComboBoxUI.get(box.getUI())).getComponents()[0]).getComponents()[0]).getComponents()[0].addMouseListener(this);  
+            ret = scroller.getViewport().getView();    
         }  
         catch (Exception e) {  
             e.printStackTrace();

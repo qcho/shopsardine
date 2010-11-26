@@ -22,14 +22,14 @@ public class Ambassador {
 	/* The ambassador class provides a bridge between the interface and the back-end */
 	
 	int langid = 1;
-	MainFrame fmain;
+	MainFrame mainFrame;
 	
 	public Ambassador(MainFrame fmain) {
-		this.fmain = fmain;
+		this.mainFrame = fmain;
 	}
 	
 	public void fetchCategories() {
-		fmain.navbar.cats.disable();
+		mainFrame.navbar.cats.disable();
 		new CatalogRequest("GetCategoryList", "language_id=" + langid).make(
         new RequestCallback() {
         	public void handle(Document response) {
@@ -44,8 +44,8 @@ public class Ambassador {
 				SwingUtilities.invokeLater(new ObjectAction<List<Category>>(categories) {
 					
 					public void run() {
-						fmain.navbar.populateCategories(object);
-						fmain.navbar.cats.enable();
+						mainFrame.navbar.populateCategories(object);
+						mainFrame.navbar.cats.enable();
 					}
 					
 				});
@@ -54,7 +54,7 @@ public class Ambassador {
 	}
 	
 	public void fetchSubcategories(int category_id) {
-		fmain.navbar.subcats.disable();
+		mainFrame.navbar.subcats.disable();
 		new CatalogRequest("GetSubcategoryList", "language_id=" + langid + "&category_id=" + category_id).make(
         new RequestCallback() {
         	public void handle(Document response) {
@@ -69,8 +69,8 @@ public class Ambassador {
 				SwingUtilities.invokeLater(new ObjectAction<List<Subcategory>>(subcategories) {
 					
 					public void run() {
-						fmain.navbar.populateSubcategories(object);
-						fmain.navbar.subcats.enable();
+						mainFrame.navbar.populateSubcategories(object);
+						mainFrame.navbar.subcats.enable();
 					}
 					
 				});
@@ -82,12 +82,12 @@ public class Ambassador {
 		final RequestCallback rcb = new RequestCallback() {
         	public void handle(Document response) {
         		
-        		fmain.catalog.clearProducts();
+        		mainFrame.catalog.clearProducts();
         		NodeList nodelist = response.getElementsByTagName("product");
         		
 				for (int i = 0; i < nodelist.getLength(); i++) {
 					Product product = new Product((Element) nodelist.item(i));
-					fmain.catalog.addProduct(product, true);
+					mainFrame.catalog.addProduct(product, true);
 					/*SwingUtilities.invokeLater(new ObjectAction<Product>(product) {
 						
 						public void run() {
@@ -107,5 +107,22 @@ public class Ambassador {
 				new CatalogRequest("GetProductListBySubcategory",
 						   "language_id=" + langid + "&category_id=" + category_id + "&subcategory_id=" + subcategory_id).make(rcb);
 		}
+	}
+	
+	public void fetchSearchResults(String query) {
+		new CatalogRequest("GetProductListByName", "criteria=" + query).make(
+		new RequestCallback() {
+			
+			public void handle(Document response) {
+				mainFrame.search.clearProducts();
+        		NodeList nodelist = response.getElementsByTagName("product");
+        		
+				for (int i = 0; i < nodelist.getLength(); i++) {
+					Product product = new Product((Element) nodelist.item(i));
+					mainFrame.search.addProduct(product, true);
+				}
+			}
+			
+		});
 	}
 }

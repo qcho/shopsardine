@@ -15,7 +15,7 @@ import org.w3c.dom.Element;
 public class Product {
 	
 	public Image image;
-	public String name;
+	public String name, desc;
 	public double price, rank;
 	
 	public Product() {}

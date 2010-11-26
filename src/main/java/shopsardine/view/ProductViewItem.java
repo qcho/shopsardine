@@ -20,8 +20,12 @@ public class ProductViewItem extends JButton {
 			setIcon(icon);
 		}
 		
+		String name = product.name;
+		if (name.length() > 40)
+			name = name.substring(0, 28) + "...";
+		
 		setText("<html>" + 
-				"<b>" + product.name + "<br />" +
+				"<b>" + name + "<br />" +
 				"$" + product.price);
 		
 		

@@ -11,7 +11,7 @@ import main.java.shopsardine.model.Product;
 @SuppressWarnings("serial")
 public class ProductView extends JScrollPane {
 
-	int last;
+	int last, count;
 	static final int NCOLS = 2;
 	
 	JPanel content;
@@ -30,7 +30,8 @@ public class ProductView extends JScrollPane {
 	public void addProduct(Product product, boolean refresh) {
 		GridLayout layout = (GridLayout) content.getLayout();
 		if (++last % NCOLS == 1)
-			layout.setRows(layout.getRows() + 1);
+			//if (++count > 8)
+				layout.setRows(layout.getRows() + 1);
 		
 		content.add(new ProductViewItem(product));
 		

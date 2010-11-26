@@ -19,15 +19,19 @@ public class Navbar extends JPanel {
 	String[] subcattext = {"Loading subcategories"};
 	
 	public Navbar() {
+		setName("navbar");		
 		
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		cats = new JComboBox(cattext);
+		cats.setName("catsCombo");
 		add(cats);
 		
 		subcats = new JComboBox(subcattext);
+		subcats.setName("subcatsCombo");
 		add(subcats);
 		
 		status = new JLabel("Welcome to Shopsardine!");
+		status.setName("statusLabel");
 		add(status);
 
 	}
