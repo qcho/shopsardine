@@ -3,6 +3,8 @@ package main.java.shopsardine.controller;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import main.java.shopsardine.embassy.CatalogRequest;
@@ -125,5 +127,27 @@ public class Ambassador {
 			}
 			
 		});
+	}
+	
+	public void showProductDetail(int product_id) {
+		new CatalogRequest("GetProduct", "product_id=" + product_id).make(
+		new RequestCallback() {
+		
+			public void handle(Document response) {
+				Element element = (Element) response.getElementsByTagName("product").item(0);
+				Product p = new Product(element, true);
+				
+				String message = "<html>";
+				for(String key : p.info.keySet()) {
+					message += "<b>" + key + "</b>: " + p.info.get(key) + "<br />";
+				}
+				
+				JOptionPane.showMessageDialog(mainFrame, message, p.name,
+						                      JOptionPane.INFORMATION_MESSAGE, new ImageIcon(p.image));
+				
+			}
+			
+		});
+		
 	}
 }

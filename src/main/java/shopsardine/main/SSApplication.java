@@ -149,6 +149,7 @@ public class SSApplication extends SingleFrameApplication {
         ambassador.fetchCategories();
         ambassador.fetchSubcategories(catid);
         ambassador.fetchProducts(catid, subcatid);
+        ambassador.showProductDetail(28);
         
         mainFrame.setVisible(true);
         
