@@ -28,7 +28,7 @@ import org.jdesktop.application.SingleFrameApplication;
 public class SSApplication extends SingleFrameApplication {
 
 	public List<Category> categories;
-    public MainFrame mainFrame;
+    public static MainFrame mainFrame;
     
     Ambassador ambassador;
     
