@@ -8,7 +8,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 
+import main.java.shopsardine.main.SSApplication;
+
+import org.jdesktop.application.ApplicationContext;
+
 public class MainFrame extends JFrame {
+	
+	ApplicationContext context;
 
 	public Navbar navbar;
 	public Searchbar searchbar;
@@ -23,6 +29,7 @@ public class MainFrame extends JFrame {
 	public Component current_content, current_top;
 	
 	public MainFrame() {
+		context = SSApplication.getInstance().getContext();
 		setName("mainFrame");
 		getContentPane().setLayout(new BorderLayout());
 		
@@ -52,7 +59,7 @@ public class MainFrame extends JFrame {
 		stats = new JTable(); // No se que hacer con esto, que vamos a guardar?
 		stats.setName("stats");
 		
-		help = new JLabel();
+		help = new JLabel(context.getResourceMap().getString("help.text"));
 		help.setName("help");
 
 		pack();
