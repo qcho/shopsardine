@@ -1,10 +1,10 @@
 package main.java.shopsardine.tools;
 
-public abstract class ObjectAction implements Runnable {
+public abstract class ObjectAction<T> implements Runnable {
 
-	public Object object;
+	public T object;
 	
-	public ObjectAction(Object o) {
+	public ObjectAction(T o) {
 		object = o;
 	}
 	

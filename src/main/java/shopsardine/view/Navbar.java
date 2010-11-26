@@ -1,11 +1,14 @@
 package main.java.shopsardine.view;
 
-import java.awt.Dimension;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import main.java.shopsardine.model.Category;
+import main.java.shopsardine.model.Subcategory;
 
 public class Navbar extends JPanel {
 
@@ -27,6 +30,24 @@ public class Navbar extends JPanel {
 		status = new JLabel("Welcome to Shopsardine!");
 		add(status);
 
+	}
+	
+	public void populateCategories(List<Category> categories) {
+		cats.removeAllItems();
+		
+		for (Category cat : categories) {
+			cats.addItem(cat);
+		}
+		
+	}
+	
+	public void populateSubcategories(List<Subcategory> categories) {
+		subcats.removeAllItems();
+		
+		for (Category cat : categories) {
+			subcats.addItem(cat);
+		}
+		
 	}
 	
 }

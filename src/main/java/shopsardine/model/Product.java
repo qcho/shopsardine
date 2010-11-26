@@ -13,7 +13,7 @@ import java.net.URL;
 import org.w3c.dom.Element;
 
 public class Product {
-
+	
 	public Image image;
 	public String name;
 	public double price, rank;
@@ -40,6 +40,10 @@ public class Product {
 		if ((picurl = e.getElementsByTagName("image_url").item(0).getTextContent()) != null)
 			fetchImage(picurl);
 		
+	}
+	
+	public static Product fromElement(Element element) {
+		return new Product(element);
 	}
 	
 	public void fetchImage(String url) {
@@ -83,5 +87,4 @@ public class Product {
 	    return Toolkit.getDefaultToolkit().createImage(ip);
 	}
 
-	
 }

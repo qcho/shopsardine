@@ -1,6 +1,8 @@
 package main.java.shopsardine.view;
 
 import java.awt.BorderLayout;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -8,6 +10,7 @@ import javax.swing.SwingUtilities;
 
 import main.java.shopsardine.embassy.CatalogRequest;
 import main.java.shopsardine.embassy.RequestCallback;
+import main.java.shopsardine.model.Category;
 import main.java.shopsardine.model.Product;
 import main.java.shopsardine.tools.ObjectAction;
 
@@ -21,7 +24,7 @@ public class MainFrame extends JFrame {
 	public Sidebar sidebar;
 	public JPanel content;
 	
-	ProductView catalog;
+	public ProductView catalog;
 	
 	public MainFrame() {
 		
@@ -29,7 +32,6 @@ public class MainFrame extends JFrame {
 		
 		initComponents();
 		setSize(800, 600);
-		
 		
 	}
 	
@@ -49,15 +51,6 @@ public class MainFrame extends JFrame {
 		add(catalog);
 		pack();
 		
-		new CatalogRequest("GetProductListByCategory", "language_id=1&category_id=1").make(
-		        new RequestCallback() {
-		        	public void handle(Document response) {
-		        		NodeList cats = response.getElementsByTagName("product");
-		        		
-						for (int i = 0; i < cats.getLength(); i++)
-							catalog.addProduct(new Product((Element) cats.item(i)), true);
-		        	}
-		        });
 		
 	}
 	

@@ -32,8 +32,7 @@ public class ProductView extends JScrollPane {
 		if (++last % NCOLS == 1)
 			layout.setRows(layout.getRows() + 1);
 		
-		ProductViewItem pvi;
-		content.add(pvi = new ProductViewItem(product));
+		content.add(new ProductViewItem(product));
 		
 		if (refresh) {
 			refresh();

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
+import main.java.shopsardine.controller.Ambassador;
 import main.java.shopsardine.model.Category;
 import main.java.shopsardine.view.MainFrame;
 
@@ -30,6 +31,11 @@ public class SSApplication extends Application {
             }
         });
         
+        Ambassador ambassador = new Ambassador(mainFrame);
+        
+        ambassador.fetchCategories();
+        ambassador.fetchSubcategories(1);
+        ambassador.fetchProducts(1);
         mainFrame.setVisible(true);
         
     }
