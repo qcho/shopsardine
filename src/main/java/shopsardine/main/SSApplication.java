@@ -1,6 +1,5 @@
 package main.java.shopsardine.main;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +9,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Locale;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -23,9 +23,9 @@ import main.java.shopsardine.model.Subcategory;
 import main.java.shopsardine.view.MainFrame;
 import main.java.shopsardine.view.Sidebar;
 
-import org.jdesktop.application.Application;
+import org.jdesktop.application.SingleFrameApplication;
 
-public class SSApplication extends Application {
+public class SSApplication extends SingleFrameApplication {
 
 	public List<Category> categories;
     public MainFrame mainFrame;
@@ -35,8 +35,7 @@ public class SSApplication extends Application {
     boolean userClickedCategory, userClickedSubcategory;
     int catid, subcatid;
 
-    @Override
-    protected void startup() {
+    protected void createMainFrame() {
         mainFrame = new MainFrame();
         
         mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -155,10 +154,6 @@ public class SSApplication extends Application {
         
     }
 
-    public static void main(String[] args) {
-        Application.launch(SSApplication.class, args);
-    }
-
     private static Component getComboBoxThingy(JComboBox box) {  
     	Component ret = null;
     	
@@ -179,4 +174,15 @@ public class SSApplication extends Application {
         
         return ret;
     }
+    
+    public static void main(String[] args) {
+        launch(SSApplication.class, args);
+    }
+
+	@Override
+	protected void startup() {
+		getMainFrame().setName("globalFrame");
+		createMainFrame();
+		show(mainFrame);
+	}
 }

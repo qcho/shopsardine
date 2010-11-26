@@ -16,10 +16,11 @@ public class MainFrame extends JFrame {
 	public JPanel content;
 	public JTable stats;
 	public JLabel help;
+	public Key1 keyboard;
 	
 	public ProductView catalog, search;
 	
-	Component current_content, current_top;
+	public Component current_content, current_top;
 	
 	public MainFrame() {
 		setName("mainFrame");
@@ -33,17 +34,20 @@ public class MainFrame extends JFrame {
 	}
 	
 	private void initComponents() {
-		navbar = new Navbar();
-		add(current_top = navbar, BorderLayout.BEFORE_FIRST_LINE);
 		
 		sidebar = new Sidebar();
-		add(sidebar, BorderLayout.LINE_END);
+		add(sidebar, BorderLayout.EAST);
 
 		catalog = new ProductView();
 		add(current_content = catalog);
 		
+		navbar = new Navbar();
+		add(current_top = navbar, BorderLayout.BEFORE_FIRST_LINE);
+		
 		search = new ProductView();
 		searchbar = new Searchbar();
+		
+		keyboard = new Key1(searchbar.tsearch);
 		
 		stats = new JTable(); // No se que hacer con esto, que vamos a guardar?
 		stats.setName("stats");
@@ -58,28 +62,31 @@ public class MainFrame extends JFrame {
 	
 	public void showSearch() {
 		if (current_content != search) {
+			System.out.println("search loaded");
 			remove(current_top);
 			remove(current_content);
 		
 			add(current_top = searchbar, BorderLayout.BEFORE_FIRST_LINE);
-			add(current_content = search);
+			add(current_content = keyboard);
 		
-			pack();
-			setSize(880, 600);
+			validate();
+			//setSize(880, 600);
 			repaint();
+			
 		}
 	}
 	
 	public void showCatalog() {
 		if (current_content != catalog) {
+			System.out.println("catalog loaded");
 			remove(current_top);
 			remove(current_content);
 		
 			add(current_top = navbar, BorderLayout.BEFORE_FIRST_LINE);
 			add(current_content = catalog);
 		
-			pack();
-			setSize(880, 600);
+			validate();
+			//setSize(880, 600);
 			
 			repaint();
 		}
@@ -87,14 +94,15 @@ public class MainFrame extends JFrame {
 	
 	public void showStats() {
 		if (current_content != stats) {
+			System.out.println("stats loaded");
 			remove(current_top);
 			remove(current_content);
 		
 			add(current_top = new JLabel(), BorderLayout.BEFORE_FIRST_LINE);
 			add(current_content = stats);
 		
-			pack();
-			setSize(880, 600);
+			validate();
+			//setSize(880, 600);
 			
 			repaint();
 		}
@@ -102,14 +110,15 @@ public class MainFrame extends JFrame {
 	
 	public void showHelp() {
 		if (current_content != help) {
+			System.out.println("help loaded");
 			remove(current_top);
 			remove(current_content);
 		
 			add(current_top = new JLabel(), BorderLayout.BEFORE_FIRST_LINE);
 			add(current_content = help);
 		
-			pack();
-			setSize(880, 600);
+			validate();
+			//setSize(880, 600);
 			
 			repaint();
 		}
@@ -127,4 +136,12 @@ public class MainFrame extends JFrame {
 				splashFrame.pbar.setValue(splashFrame.pbar.getValue() + 1);
         	}
         });*/
+
+	public void showSearchContent() {
+		remove(current_content);
+		add(current_content = search);
+		validate();
+		//setSize(880, 600);
+		repaint();
+	}
 }

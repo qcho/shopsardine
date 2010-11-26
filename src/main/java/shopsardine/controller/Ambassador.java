@@ -114,6 +114,7 @@ public class Ambassador {
 		new RequestCallback() {
 			
 			public void handle(Document response) {
+				mainFrame.showSearchContent();
 				mainFrame.search.clearProducts();
         		NodeList nodelist = response.getElementsByTagName("product");
         		

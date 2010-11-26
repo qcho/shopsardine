@@ -7,19 +7,27 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.jdesktop.application.ApplicationContext;
+
+import main.java.shopsardine.main.SSApplication;
 import main.java.shopsardine.model.Category;
 import main.java.shopsardine.model.Subcategory;
 
 public class Navbar extends JPanel {
 
+	ApplicationContext context;
+	
 	public JComboBox cats, subcats;
 	public JLabel status;
 	
+	
 	String[] cattext = {"Loading categories..."};
-	String[] subcattext = {"Loading subcategories"};
+	String[] subcattext = {"Loading subcategories..."};
 	
 	public Navbar() {
-		setName("navbar");		
+		setName("navbar");
+		
+		context = SSApplication.getInstance().getContext();
 		
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		cats = new JComboBox(cattext);
@@ -30,7 +38,7 @@ public class Navbar extends JPanel {
 		subcats.setName("subcatsCombo");
 		add(subcats);
 		
-		status = new JLabel("Welcome to Shopsardine!");
+		status = new JLabel();
 		status.setName("statusLabel");
 		add(status);
 
@@ -46,7 +54,7 @@ public class Navbar extends JPanel {
 	
 	public void populateSubcategories(List<Subcategory> categories) {
 		subcats.removeAllItems();
-		subcats.addItem("(No subcategory selected)");
+		subcats.addItem(context.getResourceMap().getString("subselect"));
 		for (Category cat : categories) {
 			subcats.addItem(cat);
 		}

@@ -62,8 +62,8 @@ public final class GUIRunner extends JFrame {
 		textArea.setMaximumSize(new Dimension(400, 200));
 		Container panel = new JPanel();
 		panel.setLayout(new FlowLayout());
-		panel.add(imageLabel);
 		panel.add(textArea);
+		panel.add(imageLabel);
 		setTitle("ZXing");
 		setSize(400, 400);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
