@@ -9,14 +9,20 @@ import java.awt.image.ImageProducer;
 import java.awt.image.RGBImageFilter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class Product {
 	
+	int id;
 	public Image image;
 	public String name, desc;
 	public double price, rank;
+	public Map<String, String> info;
 	
 	public Product() {}
 	
@@ -31,14 +37,32 @@ public class Product {
 	}
 	
 	public Product(Element e) {
+		this(e, false);
+	}
+	
+	public Product(Element e, boolean extended) {
 		String picurl;
 		
+		id = Integer.parseInt(e.getAttribute("id"));
 		name = e.getElementsByTagName("name").item(0).getTextContent();
 		price = Double.parseDouble(e.getElementsByTagName("price").item(0).getTextContent());
 		rank = Double.parseDouble(e.getElementsByTagName("sales_rank").item(0).getTextContent());
 		
 		if ((picurl = e.getElementsByTagName("image_url").item(0).getTextContent()) != null)
 			fetchImage(picurl);
+		
+		/* That's the basic info. Do we have extended info? */
+		if (extended) {
+			
+			info = new HashMap<String, String>();
+			NodeList nodelist = e.getChildNodes();
+			
+			for(int i = 0; i < nodelist.getLength(); i++) {
+				Node n = nodelist.item(i);
+				if (n.getNodeType() == Node.ELEMENT_NODE)
+					info.put(n.getNodeName(), n.getTextContent());
+			}
+		}
 		
 	}
 	
@@ -61,7 +85,7 @@ public class Product {
 	}
 	
 	public String toString() {
-		return "[Product " + name + "]";
+		return name;
 	}
 	
 	static ImageFilter filter;
