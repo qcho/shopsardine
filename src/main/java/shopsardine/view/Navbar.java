@@ -12,8 +12,8 @@ import main.java.shopsardine.model.Subcategory;
 
 public class Navbar extends JPanel {
 
-	JComboBox cats, subcats;
-	JLabel status;
+	public JComboBox cats, subcats;
+	public JLabel status;
 	
 	String[] cattext = {"Loading categories..."};
 	String[] subcattext = {"Loading subcategories"};
@@ -34,7 +34,6 @@ public class Navbar extends JPanel {
 	
 	public void populateCategories(List<Category> categories) {
 		cats.removeAllItems();
-		
 		for (Category cat : categories) {
 			cats.addItem(cat);
 		}
@@ -43,7 +42,7 @@ public class Navbar extends JPanel {
 	
 	public void populateSubcategories(List<Subcategory> categories) {
 		subcats.removeAllItems();
-		
+		subcats.addItem("(No subcategory selected)");
 		for (Category cat : categories) {
 			subcats.addItem(cat);
 		}

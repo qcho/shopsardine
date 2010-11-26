@@ -44,6 +44,12 @@ public class ProductView extends JScrollPane {
 		content.repaint();
 	}
 	
+	public void clearProducts() {
+		content.removeAll();
+		content.setLayout(new GridLayout(0, NCOLS));
+		refresh();
+	}
+	
 	@Override
 	public void setPreferredSize(Dimension dim) {
 		content.setMaximumSize(new Dimension(dim.width, 0));

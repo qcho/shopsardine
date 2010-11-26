@@ -29,6 +29,7 @@ public class Ambassador {
 	}
 	
 	public void fetchCategories() {
+		fmain.navbar.cats.disable();
 		new CatalogRequest("GetCategoryList", "language_id=" + langid).make(
         new RequestCallback() {
         	public void handle(Document response) {
@@ -44,6 +45,7 @@ public class Ambassador {
 					
 					public void run() {
 						fmain.navbar.populateCategories(object);
+						fmain.navbar.cats.enable();
 					}
 					
 				});
@@ -52,6 +54,7 @@ public class Ambassador {
 	}
 	
 	public void fetchSubcategories(int category_id) {
+		fmain.navbar.subcats.disable();
 		new CatalogRequest("GetSubcategoryList", "language_id=" + langid + "&category_id=" + category_id).make(
         new RequestCallback() {
         	public void handle(Document response) {
@@ -67,6 +70,7 @@ public class Ambassador {
 					
 					public void run() {
 						fmain.navbar.populateSubcategories(object);
+						fmain.navbar.subcats.enable();
 					}
 					
 				});
@@ -74,26 +78,34 @@ public class Ambassador {
         });
 	}
 	
-	public void fetchProducts(int category_id) {
-		new CatalogRequest("GetProductListByCategory", "language_id=" + langid + "&category_id=" + category_id).make(
-		        new RequestCallback() {
-		        	public void handle(Document response) {
-		        		
-		        		NodeList nodelist = response.getElementsByTagName("product");
-		        		
-						for (int i = 0; i < nodelist.getLength(); i++) {
-							Product product = new Product((Element) nodelist.item(i));
-							
-							SwingUtilities.invokeLater(new ObjectAction<Product>(product) {
-								
-								public void run() {
-									System.out.println(object);
-									fmain.catalog.addProduct(object, true);
-								}
-								
-							});
+	public void fetchProducts(int category_id, int subcategory_id) {
+		final RequestCallback rcb = new RequestCallback() {
+        	public void handle(Document response) {
+        		
+        		fmain.catalog.clearProducts();
+        		NodeList nodelist = response.getElementsByTagName("product");
+        		
+				for (int i = 0; i < nodelist.getLength(); i++) {
+					Product product = new Product((Element) nodelist.item(i));
+					fmain.catalog.addProduct(product, true);
+					/*SwingUtilities.invokeLater(new ObjectAction<Product>(product) {
+						
+						public void run() {
+							fmain.catalog.addProduct(object, true);
 						}
-		        	}
-		        });
+						
+					});*/
+				}
+        	}
+        };
+        
+		if (category_id != 0) {
+			if (subcategory_id == 0)
+				new CatalogRequest("GetProductListByCategory",
+								   "language_id=" + langid + "&category_id=" + category_id).make(rcb);
+			else
+				new CatalogRequest("GetProductListBySubcategory",
+						   "language_id=" + langid + "&category_id=" + category_id + "&subcategory_id=" + subcategory_id).make(rcb);
+		}
 	}
 }

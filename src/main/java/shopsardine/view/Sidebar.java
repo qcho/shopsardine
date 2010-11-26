@@ -6,6 +6,12 @@ import javax.swing.JPanel;
 
 public class Sidebar extends JPanel {
 
+	public static final int CATALOG = 0;
+	public static final int SEARCH = 1;
+	public static final int SCAN = 2;
+	public static final int STATS = 3;
+	public static final int HELP = 4;
+	
 	public JButton[] buttons;
 	public String[] labels = {"catalog", "search", "scan", "stats", "help"};
 	
