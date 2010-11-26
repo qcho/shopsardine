@@ -144,4 +144,12 @@ public class MainFrame extends JFrame {
 		//setSize(880, 600);
 		repaint();
 	}
+	
+	public void showKeyboard() {
+		remove(current_content);
+		add(current_content = keyboard);
+		validate();
+		//setSize(880, 600);
+		repaint();
+	}
 }
