@@ -9,6 +9,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Locale;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -140,6 +141,14 @@ public class SSApplication extends SingleFrameApplication {
         	
         });
         
+        mainFrame.sidebar.buttons[Sidebar.SCAN].addMouseListener(new MouseAdapter() {
+        	
+        	public void mouseClicked(MouseEvent e) {
+        		mainFrame.showScan();
+        	}
+        	
+        });
+        
         ambassador = new Ambassador(mainFrame);
         
         catid = 1;
@@ -180,6 +189,7 @@ public class SSApplication extends SingleFrameApplication {
 
 	@Override
 	protected void startup() {
+		Locale.setDefault(new Locale("es", "AR"));
 		getMainFrame().setName("globalFrame");
 		createMainFrame();
 		show(mainFrame);

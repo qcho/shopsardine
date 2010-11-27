@@ -26,6 +26,8 @@ import com.google.zxing.common.HybridBinarizer;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -34,11 +36,17 @@ import java.net.MalformedURLException;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+
+import main.java.shopsardine.controller.Ambassador;
+import main.java.shopsardine.main.SSApplication;
+
+import org.jdesktop.application.ApplicationContext;
 
 /**
  * <p>
@@ -49,43 +57,70 @@ import javax.swing.JTextArea;
  * 
  * @author Sean Owen
  */
-public final class GUIRunner extends JFrame {
+public final class GUIRunner extends JPanel {
+	
+	ApplicationContext context = SSApplication.getInstance().getContext();
 
 	private static final long serialVersionUID = 1L;
 	private final JLabel imageLabel;
 	private final JTextArea textArea;
+	private final JButton button;
 
-	private GUIRunner() {
+	public GUIRunner() {
 		imageLabel = new JLabel();
 		textArea = new JTextArea();
+		button = new JButton(context.getResourceMap().getString("loadproduct"));
 		textArea.setEditable(false);
 		textArea.setMaximumSize(new Dimension(400, 200));
-		Container panel = new JPanel();
+		Container panel = this;
 		panel.setLayout(new FlowLayout());
 		panel.add(imageLabel);
 		panel.add(textArea);
-		setTitle("ZXing");
-		setSize(400, 400);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setContentPane(panel);
-		setLocationRelativeTo(null);
+		panel.add(button);
 	}
 
-	public static void main(String[] args) throws MalformedURLException {
-		GUIRunner runner = new GUIRunner();
-		runner.setVisible(true);
-		runner.chooseImage();
-	}
-
-	private void chooseImage() throws MalformedURLException {
+	public void chooseImage() throws MalformedURLException {
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.showOpenDialog(this);
 		File file = fileChooser.getSelectedFile();
 		Icon imageIcon = new ImageIcon(file.toURI().toURL());
 		setSize(imageIcon.getIconWidth(), imageIcon.getIconHeight() + 100);
 		imageLabel.setIcon(imageIcon);
-		String decodeText = getDecodeText(file);
+		final String decodeText = getDecodeText(file);
 		textArea.setText(decodeText);
+		
+		button.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+					Ambassador.getInstance().showProductDetail(Integer.valueOf(decodeText));
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+
 	}
 
 	private static String getDecodeText(File file) {

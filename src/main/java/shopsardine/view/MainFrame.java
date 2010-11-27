@@ -2,6 +2,8 @@ package main.java.shopsardine.view;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Image;
+import java.net.MalformedURLException;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -9,6 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 
 import main.java.shopsardine.main.SSApplication;
+import main.java.shopsardine.model.qrcode.GUIRunner;
+import main.java.shopsardine.model.stats.Stats;
 
 import org.jdesktop.application.ApplicationContext;
 
@@ -20,18 +24,25 @@ public class MainFrame extends JFrame {
 	public Searchbar searchbar;
 	public Sidebar sidebar;
 	public JPanel content;
-	public JTable stats;
+	public GUIRunner scan;
+	public JTable statsTable;
 	public JLabel help;
 	public Key1 keyboard;
+	public Image loadingImage;
 	
 	public ProductView catalog, search;
 	
 	public Component current_content, current_top;
 	
+	public Stats stats;
+	
 	public MainFrame() {
 		context = SSApplication.getInstance().getContext();
 		setName("mainFrame");
 		getContentPane().setLayout(new BorderLayout());
+		
+		stats = new Stats(context);
+		stats.loadStats();
 		
 		initComponents();
 		setSize(880, 600);
@@ -56,12 +67,15 @@ public class MainFrame extends JFrame {
 		
 		keyboard = new Key1(searchbar.tsearch);
 		
-		stats = new JTable(); // No se que hacer con esto, que vamos a guardar?
-		stats.setName("stats");
+		statsTable = new JTable(); // No se que hacer con esto, que vamos a guardar?
+		statsTable.setName("stats");
 		
 		help = new JLabel(context.getResourceMap().getString("help.text"));
 		help.setName("help");
-
+		
+		scan = new GUIRunner();
+		scan.setName("scan");
+		
 		pack();
 		
 		
@@ -70,6 +84,7 @@ public class MainFrame extends JFrame {
 	public void showSearch() {
 		if (current_content != search) {
 			System.out.println("search loaded");
+			sidebar.showLogo();
 			remove(current_top);
 			remove(current_content);
 		
@@ -86,6 +101,7 @@ public class MainFrame extends JFrame {
 	public void showCatalog() {
 		if (current_content != catalog) {
 			System.out.println("catalog loaded");
+			sidebar.showLogo();
 			remove(current_top);
 			remove(current_content);
 		
@@ -100,14 +116,41 @@ public class MainFrame extends JFrame {
 	}
 	
 	public void showStats() {
-		if (current_content != stats) {
+		if (current_content != statsTable) {
 			System.out.println("stats loaded");
+			sidebar.showLogo();
+			remove(current_top);
+			remove(current_content);
+			
+			statsTable = new JTable(stats.getTableModel());
+		
+			add(current_top = new JLabel(), BorderLayout.BEFORE_FIRST_LINE);
+			add(current_content = statsTable, BorderLayout.CENTER);
+		
+			validate();
+			//setSize(880, 600);
+			
+			repaint();
+		}
+	}
+	
+	public void showScan() {
+		if (current_content != scan) {
+			System.out.println("scan loaded");
+			sidebar.showLogo();
 			remove(current_top);
 			remove(current_content);
 		
 			add(current_top = new JLabel(), BorderLayout.BEFORE_FIRST_LINE);
-			add(current_content = stats);
-		
+			add(current_content = scan, BorderLayout.CENTER);
+			
+			try {
+				scan.chooseImage();
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			validate();
 			//setSize(880, 600);
 			
@@ -118,11 +161,12 @@ public class MainFrame extends JFrame {
 	public void showHelp() {
 		if (current_content != help) {
 			System.out.println("help loaded");
+			sidebar.showLogo();
 			remove(current_top);
 			remove(current_content);
 		
 			add(current_top = new JLabel(), BorderLayout.BEFORE_FIRST_LINE);
-			add(current_content = help);
+			add(current_content = help, BorderLayout.CENTER);
 		
 			validate();
 			//setSize(880, 600);
