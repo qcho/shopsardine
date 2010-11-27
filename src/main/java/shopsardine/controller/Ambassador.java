@@ -23,11 +23,18 @@ public class Ambassador {
 
 	/* The ambassador class provides a bridge between the interface and the back-end */
 	
+	static Ambassador instance;
 	int langid = 1;
 	MainFrame mainFrame;
 	
 	public Ambassador(MainFrame fmain) {
 		this.mainFrame = fmain;
+		if (instance == null)
+			instance = this;
+	}
+	
+	public static Ambassador getInstance() {
+		return instance;
 	}
 	
 	public void fetchCategories() {
