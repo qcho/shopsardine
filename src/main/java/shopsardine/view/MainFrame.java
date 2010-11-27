@@ -71,6 +71,9 @@ public class MainFrame extends JFrame {
 		statsTable.setName("stats");
 		
 		help = new JLabel(context.getResourceMap().getString("help.text"));
+		help.setHorizontalAlignment(JLabel.CENTER);
+		help.setHorizontalTextPosition(JLabel.CENTER);
+		
 		help.setName("help");
 		
 		scan = new GUIRunner();
