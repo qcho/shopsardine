@@ -9,7 +9,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.lang.reflect.Field;
 import java.util.List;
-import java.util.Locale;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
