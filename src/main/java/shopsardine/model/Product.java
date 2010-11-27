@@ -18,7 +18,7 @@ import org.w3c.dom.NodeList;
 
 public class Product {
 	
-	int id;
+	public int id;
 	public Image image;
 	public String name, desc;
 	public double price, rank;
