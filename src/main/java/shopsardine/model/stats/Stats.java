@@ -34,15 +34,20 @@ public class Stats {
 	
 	@SuppressWarnings("unchecked")
 	public HashMap<String, Integer> loadStats(){
+		HashMap<String, Integer> h = null;
 		try {
-			return (HashMap<String, Integer>)context.getLocalStorage().load(STATS_FILE);
+			 h = (HashMap<String, Integer>) context.getLocalStorage().load(STATS_FILE);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (Exception e) {
 			System.out.println("creating new stats file. " + STATS_FILE);
 		}
-		return new HashMap<String, Integer>();
+		
+		if (h == null) {
+			h = new HashMap<String, Integer>();
+		}
+		return h;
 	};
 	public void saveStats(){
 		try {
